@@ -62,55 +62,55 @@ const isActive = (href: string) =>
 </header>
 
 <script>
-	import { gsap } from 'gsap';
+import { gsap } from 'gsap'
 
-	const navbar = document.querySelector<HTMLElement>('[data-navbar]');
-	const logo = document.querySelector<HTMLElement>('[data-navbar-logo]');
-	const links = document.querySelectorAll<HTMLElement>('.navbar__link');
-	const SCROLL_THRESHOLD = 24;
-	const COMPACT_PADDING = 10;
-	const EXPANDED_PADDING = 15;
+const navbar = document.querySelector<HTMLElement>('[data-navbar]')
+const logo = document.querySelector<HTMLElement>('[data-navbar-logo]')
+const links = document.querySelectorAll<HTMLElement>('.navbar__link')
+const SCROLL_THRESHOLD = 24
+const COMPACT_PADDING = 10
+const EXPANDED_PADDING = 15
 
-	if (navbar) {
-		let isCompact = false;
+if (navbar) {
+  let isCompact = false
 
-		const setCompact = (next: boolean) => {
-			if (next === isCompact) return;
-			isCompact = next;
+  const setCompact = (next: boolean) => {
+    if (next === isCompact) return
+    isCompact = next
 
-			gsap.to(navbar, {
-				paddingTop: next ? COMPACT_PADDING : EXPANDED_PADDING,
-				paddingBottom: next ? COMPACT_PADDING : EXPANDED_PADDING,
-				duration: 0.35,
-				ease: 'power2.out',
-				overwrite: true,
-			});
+    gsap.to(navbar, {
+      paddingTop: next ? COMPACT_PADDING : EXPANDED_PADDING,
+      paddingBottom: next ? COMPACT_PADDING : EXPANDED_PADDING,
+      duration: 0.35,
+      ease: 'power2.out',
+      overwrite: true,
+    })
 
-			if (logo) {
-				gsap.to(logo, {
-					height: next ? 38 : 44,
-					width: next ? 38 : 44,
-					duration: 0.35,
-					ease: 'power2.out',
-					overwrite: true,
-				});
-			}
-		};
+    if (logo) {
+      gsap.to(logo, {
+        height: next ? 38 : 44,
+        width: next ? 38 : 44,
+        duration: 0.35,
+        ease: 'power2.out',
+        overwrite: true,
+      })
+    }
+  }
 
-		const onScroll = () => setCompact(window.scrollY > SCROLL_THRESHOLD);
+  const onScroll = () => setCompact(window.scrollY > SCROLL_THRESHOLD)
 
-		window.addEventListener('scroll', onScroll, { passive: true });
-		onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
 
-		gsap.from(links, {
-			opacity: 0,
-			y: -8,
-			duration: 0.4,
-			stagger: 0.05,
-			ease: 'power2.out',
-			delay: 0.1,
-		});
-	}
+  gsap.from(links, {
+    opacity: 0,
+    y: -8,
+    duration: 0.4,
+    stagger: 0.05,
+    ease: 'power2.out',
+    delay: 0.1,
+  })
+}
 </script>
 
 <style>

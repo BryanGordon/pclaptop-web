@@ -189,15 +189,6 @@ p {
 	background-color: rgb(242 242 242 / 8%);
 }
 
-.btn__icon {
-	display: inline-flex;
-	transition: transform var(--transition-base);
-}
-
-.btn:hover .btn__icon {
-	transform: translateX(4px);
-}
-
 /* ==========================================================================
    Cards
    ========================================================================== */
