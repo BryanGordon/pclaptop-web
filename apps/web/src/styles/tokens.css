@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Design tokens — PC Laptop
+   Values marked "brand" are fixed by the client and must not change.
+   ========================================================================== */
+
+:root {
+	/* Brand palette (fixed) */
+	--color-bg: #010d26;
+	--color-text: #f2f2f2;
+	--color-card: #2e97f2;
+	--color-heading: #2e97f2;
+	--color-card-title: #000000;
+	--color-card-text: #0a2033;
+
+	/* Derived surfaces — built from the brand navy to add depth */
+	--color-surface: #06183a;
+	--color-surface-raised: #0a2148;
+	--color-border: rgb(242 242 242 / 12%);
+	--color-text-muted: rgb(242 242 242 / 70%);
+	--color-card-muted: rgb(10 32 51 / 72%);
+	--color-card-contrast: rgb(0 0 0 / 12%);
+
+	/* Radii (fixed) */
+	--radius-image: 8px;
+	--radius-card: 12px;
+
+	/* Structural radii */
+	--radius-pill: 999px;
+
+	/* Layout */
+	--container-width: 1240px;
+	--container-padding: 32px;
+	--navbar-padding-block: 15px;
+	--navbar-padding-block-compact: 10px;
+	--section-space: 96px;
+	--gap: 24px;
+	--gap-lg: 32px;
+
+	/* Typography */
+	--font-body: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-display: 'Space Grotesk Variable', 'Space Grotesk', var(--font-body);
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: clamp(1.5rem, 2.2vw, 2rem);
+	--text-2xl: clamp(2rem, 3.4vw, 2.75rem);
+	--text-hero: clamp(2.75rem, 5vw, 4.25rem);
+
+	/* Effects */
+	--shadow-card: 0 18px 44px rgb(0 0 0 / 32%);
+	--shadow-navbar: 0 10px 30px rgb(0 0 0 / 24%);
+	--transition-base: 220ms ease;
+}

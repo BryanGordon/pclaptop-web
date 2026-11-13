@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout title="Contacto" description="Direcciones, teléfonos y formulario de contacto.">
+	<PageHeader
+		eyebrow="Hablemos"
+		title="Contacto"
+		description="Visítanos en tienda, llámanos o escríbenos y te respondemos a la brevedad."
+	/>
+
+	<div class="container note">
+		<div class="placeholder-panel">
+			<strong>Próxima entrega</strong>
+			<p>
+				Mapa embebido con las direcciones, teléfonos, correo y formulario de contacto con los
+				campos básicos.
+			</p>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.note {
+		padding-bottom: var(--section-space);
+	}
+</style>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout
+	title="Trabaja con nosotros"
+	description="Conoce los pasos para acceder al beneficio y postúlate."
+>
+	<PageHeader
+		eyebrow="Únete al equipo"
+		title="Trabaja con nosotros"
+		description="Cuatro pasos claros para acceder al beneficio de colaboradores."
+	/>
+
+	<div class="container note">
+		<div class="placeholder-panel">
+			<strong>Próxima entrega</strong>
+			<p>Cards con los 4 pasos del proceso y el formulario de postulación.</p>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.note {
+		padding-bottom: var(--section-space);
+	}
+</style>

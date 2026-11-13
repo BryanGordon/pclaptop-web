@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout title="PC's" description="Todos los equipos disponibles en PC Laptop.">
+	<PageHeader
+		eyebrow="Catálogo"
+		title="PC's"
+		description="Todos los equipos disponibles, con su ficha técnica completa."
+	/>
+
+	<div class="container">
+		<div class="placeholder-panel">
+			<strong>Grilla de productos y filtros en construcción</strong>
+			<p>A continuación: grid de 3 columnas con todos los equipos y un aside izquierdo para filtros.</p>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.container {
+		padding-bottom: var(--section-space);
+	}
+</style>

@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const categories = [
+	{ name: 'Monitores', description: 'Gaming, profesional y oficina.' },
+	{ name: 'Componentes', description: 'Procesadores, tarjetas de video y más.' },
+	{ name: 'Impresoras', description: 'Multifuncionales y de alto volumen.' },
+	{ name: 'Repuestos', description: 'Repuestos y accesorios originales.' },
+];
+---
+
+<BaseLayout title="Otros productos" description="Monitores, componentes, impresoras y repuestos.">
+	<PageHeader
+		eyebrow="Catálogo"
+		title="Otros productos"
+		description="Explora por categoría y encuentra lo que necesitas para completar tu equipo."
+	/>
+
+	<section class="container" aria-label="Categorías de productos">
+		<ul class="categories">
+			{
+				categories.map((category) => (
+					<li class="card category">
+						<h2>{category.name}</h2>
+						<p>{category.description}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<div class="container note">
+		<div class="placeholder-panel">
+			<strong>Próxima entrega</strong>
+			<p>
+				Cards del catálogo en 2 columnas y las páginas por categoría (monitores, componentes,
+				impresoras y repuestos).
+			</p>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.categories {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.category {
+		gap: 8px;
+		padding: 28px 24px;
+	}
+
+	.category h2 {
+		font-size: var(--text-lg);
+	}
+
+	.category p {
+		font-size: var(--text-sm);
+		opacity: 0.85;
+	}
+
+	.note {
+		padding-block: var(--gap-lg) var(--section-space);
+	}
+</style>

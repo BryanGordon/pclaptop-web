@@ -1,0 +1,150 @@
+---
+import heroImage from '@media/banners/hero_pc.webp';
+
+const highlights = ['Garantía oficial', 'Equipos originales', 'Asesoría técnica'];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+	<div class="hero__glow" aria-hidden="true"></div>
+	<div class="hero__inner container">
+		<div class="hero__content" data-hero-content>
+			<p class="eyebrow">Tecnología que rinde</p>
+			<h1 id="hero-title">Tu próximo equipo empieza aquí</h1>
+			<p class="hero__lead">
+				Laptops, monitores, componentes y repuestos seleccionados para trabajar, crear y jugar sin
+				compromisos. Configuramos tu equipo con asesoría real.
+			</p>
+			<div class="hero__actions">
+				<a class="btn btn--primary" href="/pcs">
+					Ver productos
+					<span class="btn__icon" aria-hidden="true">→</span>
+				</a>
+			</div>
+			<ul class="hero__highlights">
+				{
+					highlights.map((item) => (
+						<li class="hero__highlight">
+							<span class="hero__dot" aria-hidden="true"></span>
+							{item}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<figure class="hero__media" data-hero-media>
+			<img
+				class="hero__image"
+				src={heroImage.src}
+				width="1052"
+				height="591"
+				alt="Laptop de alto rendimiento sobre un escritorio con iluminación azul"
+				fetchpriority="high"
+				decoding="async"
+			/>
+		</figure>
+	</div>
+</section>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const content = document.querySelector<HTMLElement>('[data-hero-content]');
+	const media = document.querySelector<HTMLElement>('[data-hero-media]');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (content && media && !reduceMotion) {
+		gsap
+			.timeline({ defaults: { ease: 'power3.out', duration: 0.7 } })
+			.from(content.children, { y: 24, opacity: 0, stagger: 0.08 })
+			.from(media, { y: 32, opacity: 0, scale: 0.98, duration: 0.9 }, '<0.1');
+	}
+</script>
+
+<style>
+	.hero {
+		position: relative;
+		overflow: hidden;
+		padding-block: 88px 72px;
+	}
+
+	.hero__glow {
+		position: absolute;
+		inset: -20% -10% auto auto;
+		width: 780px;
+		height: 780px;
+		background: radial-gradient(circle, rgb(46 151 242 / 22%) 0%, transparent 62%);
+		pointer-events: none;
+	}
+
+	.hero__inner {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+		align-items: center;
+		gap: 64px;
+	}
+
+	.hero__content {
+		display: grid;
+		gap: 22px;
+		justify-items: start;
+	}
+
+	.hero__lead {
+		max-width: 48ch;
+		color: var(--color-text-muted);
+		font-size: var(--text-lg);
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: 4px;
+	}
+
+	.hero__highlights {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		margin-top: 14px;
+	}
+
+	.hero__highlight {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.hero__dot {
+		width: 8px;
+		height: 8px;
+		background-color: var(--color-heading);
+		border-radius: 50%;
+		box-shadow: 0 0 0 4px rgb(46 151 242 / 18%);
+	}
+
+	.hero__media {
+		position: relative;
+	}
+
+	.hero__media::after {
+		content: '';
+		position: absolute;
+		inset: auto 24px -18px 24px;
+		height: 40px;
+		background: rgb(46 151 242 / 32%);
+		filter: blur(36px);
+		border-radius: 50%;
+	}
+
+	.hero__image {
+		position: relative;
+		width: 100%;
+		border-radius: var(--radius-image);
+		box-shadow: 0 30px 70px rgb(0 0 0 / 45%);
+	}
+</style>

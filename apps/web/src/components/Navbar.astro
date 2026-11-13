@@ -1,0 +1,228 @@
+---
+import logo from '@media/logo.jpg';
+import { NAV_ITEMS, SITE_NAME } from '../consts';
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+	href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="navbar" data-navbar>
+	<div class="navbar__inner container">
+		<a class="navbar__brand" href="/" aria-label={`${SITE_NAME} — Inicio`}>
+			<img
+				class="navbar__logo"
+				src={logo.src}
+				width="44"
+				height="44"
+				alt={SITE_NAME}
+				data-navbar-logo
+			/>
+			<span class="navbar__brand-name">{SITE_NAME}</span>
+		</a>
+
+		<nav class="navbar__nav" aria-label="Navegación principal">
+			<ul class="navbar__list">
+				{
+					NAV_ITEMS.map((item) => (
+						<li>
+							<a
+								class:list={['navbar__link', { 'is-active': isActive(item.href) }]}
+								href={item.href}
+								aria-current={isActive(item.href) ? 'page' : undefined}
+							>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<!-- Slots reservados: login y carrito se conectan en una entrega posterior -->
+		<div class="navbar__actions">
+			<button class="navbar__action" type="button" disabled title="Iniciar sesión (próximamente)">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path
+						d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
+						fill="currentColor"></path>
+				</svg>
+				<span class="visually-hidden">Iniciar sesión</span>
+			</button>
+			<button class="navbar__action" type="button" disabled title="Carrito (próximamente)">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path
+						d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3 3v2h2.2l3.1 7.1-1.2 2.2A2 2 0 0 0 9 18h10v-2H9.4l.9-1.6h6.9a2 2 0 0 0 1.8-1.1L21.7 7H7.4L6.1 5H3v-2Z"
+						fill="currentColor"></path>
+				</svg>
+				<span class="visually-hidden">Carrito</span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const navbar = document.querySelector<HTMLElement>('[data-navbar]');
+	const logo = document.querySelector<HTMLElement>('[data-navbar-logo]');
+	const links = document.querySelectorAll<HTMLElement>('.navbar__link');
+	const SCROLL_THRESHOLD = 24;
+	const COMPACT_PADDING = 10;
+	const EXPANDED_PADDING = 15;
+
+	if (navbar) {
+		let isCompact = false;
+
+		const setCompact = (next: boolean) => {
+			if (next === isCompact) return;
+			isCompact = next;
+
+			gsap.to(navbar, {
+				paddingTop: next ? COMPACT_PADDING : EXPANDED_PADDING,
+				paddingBottom: next ? COMPACT_PADDING : EXPANDED_PADDING,
+				duration: 0.35,
+				ease: 'power2.out',
+				overwrite: true,
+			});
+
+			if (logo) {
+				gsap.to(logo, {
+					height: next ? 38 : 44,
+					width: next ? 38 : 44,
+					duration: 0.35,
+					ease: 'power2.out',
+					overwrite: true,
+				});
+			}
+		};
+
+		const onScroll = () => setCompact(window.scrollY > SCROLL_THRESHOLD);
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+
+		gsap.from(links, {
+			opacity: 0,
+			y: -8,
+			duration: 0.4,
+			stagger: 0.05,
+			ease: 'power2.out',
+			delay: 0.1,
+		});
+	}
+</script>
+
+<style>
+	.navbar {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background-color: var(--color-card);
+		color: var(--color-card-text);
+		padding-block: var(--navbar-padding-block);
+		border-bottom: 1px solid rgb(1 13 38 / 12%);
+		transition: box-shadow var(--transition-base);
+	}
+
+	.navbar:hover {
+		box-shadow: var(--shadow-navbar);
+	}
+
+	.navbar__inner {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-lg);
+	}
+
+	.navbar__brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		flex-shrink: 0;
+	}
+
+	.navbar__logo {
+		width: 44px;
+		height: 44px;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		box-shadow: 0 4px 12px rgb(1 13 38 / 24%);
+	}
+
+	.navbar__brand-name {
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: var(--text-lg);
+		font-weight: 700;
+		letter-spacing: -0.01em;
+	}
+
+	.navbar__nav {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+	}
+
+	.navbar__list {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.navbar__link {
+		display: inline-flex;
+		align-items: center;
+		padding: 8px 16px;
+		border-radius: var(--radius-pill);
+		color: var(--color-card-text);
+		font-family: var(--font-display);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		transition:
+			background-color var(--transition-base),
+			color var(--transition-base);
+	}
+
+	.navbar__link:hover {
+		background-color: rgb(1 13 38 / 10%);
+		color: var(--color-card-title);
+	}
+
+	.navbar__link.is-active {
+		background-color: var(--color-card-title);
+		color: var(--color-text);
+	}
+
+	.navbar__actions {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-shrink: 0;
+	}
+
+	.navbar__action {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		background-color: rgb(1 13 38 / 10%);
+		border: 0;
+		border-radius: var(--radius-pill);
+		color: var(--color-card-text);
+		cursor: pointer;
+	}
+
+	.navbar__action:disabled {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
+	.navbar__action svg {
+		width: 20px;
+		height: 20px;
+	}
+</style>
