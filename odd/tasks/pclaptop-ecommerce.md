@@ -28,8 +28,8 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 
 | ID | Scope | Specs | Route | Status |
 | --- | --- | --- | --- | --- |
-| T1 | Monorepo + Astro/TS/GSAP/Svelte/ESLint setup, design tokens, BaseLayout, sticky navbar, footer, 5 routes | S1, S2, S3, S4, S5, S6, S7, S13, S14 | inline | done (commit 1c9a1de) |
-| T2 | Home: hero + CTA | S8, S15 | inline | pending |
+| T1 | Monorepo + Astro/TS/GSAP/Svelte/ESLint setup, design tokens, BaseLayout, sticky navbar, footer, 5 routes | S1, S2, S3, S4, S5, S6, S7, S13, S14 | inline | done (040b921) |
+| T2 | Home: hero + CTA | S8, S15 | inline | done (040b921) |
 | T3 | Home: offers (3 cards) | S8 | inline | pending |
 | T4 | Home: 4 square category cards (~180px) | S8 | inline | pending |
 | T5 | Home: bento of 3 banners | S8 | inline | pending |
@@ -46,3 +46,8 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 - **L2** — Media inventory confirmed: `media/{banners,componentes,impresoras,monitores,pcs,repuestos}` + `media/logo.jpg`.
 - **L3** — Tooling versions resolved: Astro 7.4.11 (Node >=22.23.4), ESLint 10.14.0 + neostandard 0.14.1 (peer `eslint ^9.22 || ^10`), TypeScript pinned to 6.0.3 because `@astrojs/check` and `@astrojs/svelte` peers reject TS 7.
 - **L4** — Assets stay at repo root `media/` (single source of truth). Vite alias `@media` -> monorepo root `media/`.
+- **L5** — Increment 1 shipped (`040b921`, branch `feat/front-foundation`): npm workspaces monorepo, `apps/web` Astro 7 (Svelte integration installed, no Svelte islands yet), `apps/api` folder-only placeholder, `odd/` docs, design tokens, `BaseLayout`, sticky navbar with GSAP shrink (15px -> 10px), footer, 5 routes, home hero.
+  Verification: `eslint .` -> 13 files linted, 0 problems; dev server 200 on `/`, `/pcs`, `/otros-productos`, `/contacto`, `/trabaja-con-nosotros`; `hero_pc.webp` and `logo.jpg` served 200 through `/@fs`; production build to a temp dir outside the repo (`/d/npm-tmp/build-test`) exit 0 with `hero_pc.*.webp` + `gsap.*.js` emitted; no `dist` created in the repo.
+  Environment issue 1: `C:` had ~3.9MB free, so every `npm install` failed with `ENOSPC`. Installs were run with `--cache /d/npm-cache` and `TMP/TEMP/TMPDIR=/d/npm-tmp`. The machine still needs disk space freed on `C:`.
+  Environment issue 2: `astro check` (and `astro --help`) exit without printing anything in this bash harness, so type checking could not be used as a gate. Reported, not fixed, per the user's instruction.
+  Blocker avoided: no ESLint 10 / neostandard incompatibility appeared; `neostandard` peer range already allows `eslint ^10`.
