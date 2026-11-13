@@ -31,21 +31,23 @@ scaffolded but intentionally empty.
 ## Requirements
 
 - Node `>= 22.23.4`
-- npm `>= 9.6.5`
+- pnpm `>= 10` (pinned to `pnpm@10.7.0` via `packageManager`)
+
+The workspace is declared in `pnpm-workspace.yaml`; `pnpm-lock.yaml` is the only lockfile.
 
 ## Commands
 
 Run from the repository root:
 
 ```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run lint
-npm run lint:fix
-npm run build
+pnpm install
+pnpm dev         # http://localhost:4321
+pnpm lint
+pnpm lint:fix
+pnpm build       # output in apps/web/dist
 ```
 
-`astro check` is wired as `npm run check`, but it currently exits silently in this
+`astro check` is wired as `pnpm check`, but it currently exits silently in this
 environment (see `odd/tasks/pclaptop-ecommerce.md`).
 
 ## Assets

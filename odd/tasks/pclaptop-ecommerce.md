@@ -21,7 +21,10 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 - **S11** — Contacto page: addresses on one embedded map, phone numbers, email and a contact form with basic fields (real data comes later).
 - **S12** — Trabaja con nosotros page: 4 cards describing the 4 steps to access the benefit, plus a simple form below.
 - **S13** — No responsive work yet. Quote: "NO hagas el responsive todavia".
-- **S14** — Do not create `dist` unless strictly necessary. Quote: "NO crees el dist a no ser que SEA ESTRICTAMENTE NECESARIO".
+- **S14** — Build output: working with `dist` is allowed and preferred for build verification; do not hand-craft throwaway build directories. (Updated by the user in L6; originally "no dist".)
+- **S16** — Icons: the user provides every icon personally. Never create or invent icons. Temporary login/cart icons in the navbar may stay until replaced.
+- **S17** — Git: never run a git command without asking first, naming exactly what will be done.
+- **S18** — Package manager: pnpm. Workspace declared in `pnpm-workspace.yaml`, single lockfile `pnpm-lock.yaml`, no npm artifacts.
 - **S15** — Modern design while respecting every color/radius/typography parameter above. Work in small increments delivered for review.
 
 ## Tasks
@@ -51,3 +54,10 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
   Environment issue 1: `C:` had ~3.9MB free, so every `npm install` failed with `ENOSPC`. Installs were run with `--cache /d/npm-cache` and `TMP/TEMP/TMPDIR=/d/npm-tmp`. The machine still needs disk space freed on `C:`.
   Environment issue 2: `astro check` (and `astro --help`) exit without printing anything in this bash harness, so type checking could not be used as a gate. Reported, not fixed, per the user's instruction.
   Blocker avoided: no ESLint 10 / neostandard incompatibility appeared; `neostandard` peer range already allows `eslint ^10`.
+- **L6** — User corrections (verbatim, 2026-11-12): "ok, para aclarar una cosa, antes de hacer algun cambio con git preguntamelo y avisame que vas a hacer especificamente. Ahora explicame porque creaste una nueva rama y cual es la funcion. Para el tema del espacio del disco, va a resultar mejor que trabajes con el dist, creo que eso te ahorra trabajo y ahorra crear temp files, corrigeme si estoy equivocado. Aparte los iconos que vayamos a usar en la pagina te los voy a proporcionar YO en su debido momento, no los crees tu. Borra el icono de la arrow que has añadido al boton del hero. Deja los que has puesto para el login y el carrito de momento."
+  Effects: S14 rewritten (dist allowed), S16 and S17 added, hero arrow icon removed along with the now-unused `.btn__icon` styles.
+- **L7** — Correction of my own evidence: the earlier "ESLint clean" claim was wrong. The bash harness swallows ESLint's stdout, so an empty screen was misread as success. JSON output showed 156 style errors (`@stylistic/semi` x34, `@stylistic/no-tabs` x61, `@stylistic/indent` x61). `eslint . --fix` applied neostandard style (no semicolons, space indentation in JS/TS); re-run reports 13 files, 0 problems, exit 0. Lesson: verify lint with `-f json -o <file>` and inspect the file, never by eye on stdout.
+- **L8** — Verification after the icon removal: `astro build` exit 0 into `apps/web/dist` with all 5 routes; `dist/index.html` contains "Ver productos" once and zero `→` characters.
+- **L9** — User request (verbatim, 2026-11-12): "Antes de continuar he visto que has colocado el package.json configs con npm cambialas a pnpm que es la que me gusta y uso mas frecuentemente. Si, vamos a seguir trabajando en la rama que creaste."
+  Migration done: added `pnpm-workspace.yaml` (`packages: apps/*`), removed `workspaces` from the root `package.json`, root scripts now use `pnpm --filter @pclaptop/web <script>`, added `packageManager: pnpm@10.7.0` and `engines.pnpm >= 10`, deleted `package-lock.json` and the npm-generated `node_modules`, installed with pnpm 10.7.0 (store already at `D:\.pnpm-store\v10`, so no ENOSPC this time).
+  Verification: `pnpm install` exit 0 with zero WARN/ERR and no ignored build scripts; `pnpm lint` exit 0; `pnpm build` exit 0 with all 5 routes in `apps/web/dist`; fresh dev server under pnpm answers 200 on all 5 routes and the home still renders the "Ver productos" button. Dev server restarted (the one on port 4321 predated the dependency swap and was running against the removed npm `node_modules`).
