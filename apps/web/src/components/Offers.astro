@@ -1,0 +1,192 @@
+---
+import { OFFERS } from '../data/offers'
+
+const priceFormatter = new Intl.NumberFormat('es-EC', {
+	style: 'currency',
+	currency: 'USD',
+	maximumFractionDigits: 0,
+})
+---
+
+<section class="section offers" aria-labelledby="offers-title">
+	<div class="container">
+		<header class="section__header">
+			<div class="offers__intro">
+				<p class="eyebrow">Ofertas</p>
+				<h2 id="offers-title">Equipos destacados</h2>
+			</div>
+			<a class="btn btn--ghost" href="/pcs">Ver catálogo completo</a>
+		</header>
+
+		<ul class="offers__grid" data-offers-grid>
+			{
+				OFFERS.map((offer) => (
+					<li class="offers__item" data-offer>
+						<a class="card offer" href={offer.href}>
+							<div class="offer__media">
+								<img
+									class="offer__image"
+									src={offer.image.src}
+									width={offer.image.width}
+									height={offer.image.height}
+									alt={offer.imageAlt}
+									loading="lazy"
+									decoding="async"
+								/>
+							</div>
+
+							<div class="offer__body">
+								<h3 class="offer__model">{offer.model}</h3>
+								<ul class="offer__specs">
+									{offer.specs.map((spec) => (
+										<li>{spec}</li>
+									))}
+								</ul>
+
+								<div class="offer__footer">
+									<p class="offer__price">{priceFormatter.format(offer.price)}</p>
+									<span class="offer__cta">Ver producto</span>
+								</div>
+							</div>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<script>
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const grid = document.querySelector<HTMLElement>('[data-offers-grid]')
+const cards = document.querySelectorAll<HTMLElement>('[data-offer]')
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+if (grid && cards.length > 0 && !reduceMotion) {
+  gsap.from(cards, {
+    y: 28,
+    opacity: 0,
+    duration: 0.7,
+    stagger: 0.1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: grid,
+      start: 'top 85%',
+      once: true,
+    },
+  })
+}
+</script>
+
+<style>
+	.offers__intro {
+		display: grid;
+		gap: 12px;
+	}
+
+	.offers__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.offers__item {
+		display: flex;
+	}
+
+	.offer {
+		flex: 1;
+	}
+
+	.offer__media {
+		padding: 20px 20px 0;
+	}
+
+	.offer__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		background-color: #ffffff;
+		transition: transform var(--transition-base);
+	}
+
+	.offer:hover .offer__image {
+		transform: scale(1.03);
+	}
+
+	.offer__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 14px;
+		padding: 20px;
+	}
+
+	.offer__model {
+		color: var(--color-card-title);
+		font-size: var(--text-xl);
+	}
+
+	.offer__specs {
+		display: grid;
+		gap: 6px;
+		color: var(--color-card-text);
+		font-size: var(--text-sm);
+		line-height: 1.45;
+	}
+
+	.offer__specs li {
+		display: flex;
+		align-items: baseline;
+		gap: 8px;
+	}
+
+	.offer__specs li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		background-color: currentcolor;
+		border-radius: 50%;
+		opacity: 0.6;
+	}
+
+	.offer__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: auto;
+		padding-top: 16px;
+		border-top: 1px solid rgb(0 0 0 / 12%);
+	}
+
+	.offer__price {
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.offer__cta {
+		color: var(--color-card-text);
+		font-family: var(--font-display);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+		transition: color var(--transition-base);
+	}
+
+	.offer:hover .offer__cta {
+		color: var(--color-card-title);
+	}
+</style>
