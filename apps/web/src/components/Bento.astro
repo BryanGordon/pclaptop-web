@@ -30,8 +30,7 @@ import { HOME_BANNERS } from '../data/banners'
 							</div>
 
 							<div class="bento__caption">
-								<h3 class="bento__model">{banner.model}</h3>
-								<span class="bento__cta">Ver más</span>
+								<h3 class="bento__brand">{banner.brand}</h3>
 							</div>
 						</a>
 					</li>
@@ -115,35 +114,15 @@ if (grid && items.length > 0 && !reduceMotion) {
 	}
 
 	.bento__caption {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 12px;
 		padding: 16px 20px;
 	}
 
-	.bento__model {
+	.bento__brand {
 		font-size: var(--text-lg);
 		line-height: 1.2;
 	}
 
-	.bento__item--wide .bento__model {
+	.bento__item--wide .bento__brand {
 		font-size: var(--text-xl);
-	}
-
-	.bento__cta {
-		flex-shrink: 0;
-		color: var(--color-card-text);
-		font-family: var(--font-display);
-		font-size: var(--text-sm);
-		font-weight: 600;
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 4px;
-		transition: color var(--transition-base);
-	}
-
-	.bento__card:hover .bento__cta {
-		color: var(--color-card-title);
 	}
 </style>

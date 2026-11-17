@@ -5,7 +5,7 @@ import zenbook14 from '@media/banners/banner_zenbook_14_oled.webp'
 
 export interface HomeBanner {
   slug: string
-  model: string
+  brand: string
   image: ImageMetadata
   imageAlt: string
   href: string
@@ -13,13 +13,14 @@ export interface HomeBanner {
 }
 
 /**
- * Home bento banners. Every banner links to the PC listing until the product
+ * Home bento banners. The caption carries the brand, not the model: the section
+ * promotes brands. Every banner links to the PC listing until the product
  * detail page (T11) exists.
  */
 export const HOME_BANNERS: HomeBanner[] = [
   {
     slug: 'gigabyte-gaming-a16',
-    model: 'Gigabyte Gaming A16',
+    brand: 'Gigabyte',
     image: gigabyteA16,
     imageAlt: 'Laptop Gigabyte Gaming A16 encendida sobre un fondo oscuro',
     href: '/pcs',
@@ -27,7 +28,7 @@ export const HOME_BANNERS: HomeBanner[] = [
   },
   {
     slug: 'asus-expertbook',
-    model: 'Asus ExpertBook',
+    brand: 'Asus Empresarial',
     image: expertBook,
     imageAlt: 'Laptop Asus ExpertBook de negocios sobre un fondo claro',
     href: '/pcs',
@@ -35,7 +36,7 @@ export const HOME_BANNERS: HomeBanner[] = [
   },
   {
     slug: 'asus-zenbook-14-oled',
-    model: 'Asus Zenbook 14 OLED',
+    brand: 'Asus',
     image: zenbook14,
     imageAlt: 'Laptop Asus Zenbook 14 OLED abierta sobre una superficie gris, vista desde atrás',
     href: '/pcs',
