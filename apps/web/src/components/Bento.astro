@@ -1,0 +1,145 @@
+---
+import { HOME_BANNERS } from '../data/banners'
+---
+
+<section class="section bento" aria-labelledby="bento-title">
+	<div class="container">
+		<header class="section__header">
+			<div class="bento__intro">
+				<p class="eyebrow">Destacados</p>
+				<h2 id="bento-title">Líneas destacadas</h2>
+			</div>
+			<a class="btn btn--ghost" href="/pcs">Ver todas las laptops</a>
+		</header>
+
+		<ul class="bento__grid" data-bento-grid>
+			{
+				HOME_BANNERS.map((banner) => (
+					<li class:list={['bento__item', `bento__item--${banner.size}`]} data-bento>
+						<a class="card bento__card" href={banner.href}>
+							<div class="bento__media">
+								<img
+									class="bento__image"
+									src={banner.image.src}
+									width={banner.image.width}
+									height={banner.image.height}
+									alt={banner.imageAlt}
+									loading="lazy"
+									decoding="async"
+								/>
+							</div>
+
+							<div class="bento__caption">
+								<h3 class="bento__model">{banner.model}</h3>
+								<span class="bento__cta">Ver más</span>
+							</div>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<script>
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const grid = document.querySelector<HTMLElement>('[data-bento-grid]')
+const items = document.querySelectorAll<HTMLElement>('[data-bento]')
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+if (grid && items.length > 0 && !reduceMotion) {
+  gsap.from(items, {
+    y: 28,
+    opacity: 0,
+    duration: 0.7,
+    stagger: 0.1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: grid,
+      start: 'top 85%',
+      once: true,
+    },
+  })
+}
+</script>
+
+<style>
+	.bento__intro {
+		display: grid;
+		gap: 12px;
+	}
+
+	.bento__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.bento__item {
+		display: flex;
+	}
+
+	.bento__item--wide {
+		grid-column: 1 / -1;
+	}
+
+	.bento__card {
+		flex: 1;
+	}
+
+	.bento__media {
+		display: flex;
+		aspect-ratio: 2 / 1;
+		padding: 20px 20px 0;
+	}
+
+	.bento__image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		border-radius: var(--radius-image);
+		transition: transform var(--transition-base);
+	}
+
+	.bento__card:hover .bento__image {
+		transform: scale(1.03);
+	}
+
+	.bento__caption {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 16px 20px;
+	}
+
+	.bento__model {
+		font-size: var(--text-lg);
+		line-height: 1.2;
+	}
+
+	.bento__item--wide .bento__model {
+		font-size: var(--text-xl);
+	}
+
+	.bento__cta {
+		flex-shrink: 0;
+		color: var(--color-card-text);
+		font-family: var(--font-display);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+		transition: color var(--transition-base);
+	}
+
+	.bento__card:hover .bento__cta {
+		color: var(--color-card-title);
+	}
+</style>
