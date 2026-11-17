@@ -38,11 +38,11 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 | T4 | Home: 4 square category cards (250px after L14) | S8 | inline | done (b4bdb38, 0b884c2) |
 | T5 | Home: bento of 3 banners | S8 | inline | done (03e5b2b; geometry corrected in L20, uncommitted) |
 | T6 | Home: products carousel (image + price) | S8 | inline | done (ProductsCarousel.astro + data/products.ts, uncommitted) |
-| T7 | PC's listing: 3-column grid + left filter aside | S9 | inline | pending |
+| T7 | PC's listing: 3-column grid + left filter aside | S9 | inline | done (pages/pcs.astro consuming data/products.ts, uncommitted) |
 | T8 | Otros productos: 2-column cards + category landing pages | S10 | inline | pending |
 | T9 | Contacto: map, phones, email, form | S11 | inline | pending |
 | T10 | Trabaja con nosotros: 4 step cards + form | S12 | inline | pending |
-| T11 | Product detail page (explicitly deferred by the user) | S8 | inline | pending |
+| T11 | Product detail page (explicitly deferred by the user) | S8 | inline | pending — when it exists, the T7 catalog cards become links and get their hover transform (user, 2026-11-17) |
 
 ## Log
 
@@ -115,3 +115,8 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 - **L25** — User (verbatim, 2026-11-17): "añade un spacing debajo de la seccion del carousell, siento que esta demasiado cerca del footer."
   Cause, measured: every section carries `padding-block: var(--section-space)` (96px), so the visual air between two sections is 96 + 96 = 192px, but the footer is not a `.section` — the last block only contributed its own 96px, which is why the carousel looked closer to the footer than any other transition. Fix: `.carousel { padding-bottom: calc(var(--section-space) * 2) }` in `ProductsCarousel.astro`, scoped to this section (not global, same reasoning as L15/L22).
   Verification (CDP): scrollbar-to-footer `96px` before, `192px` after; last card bottom to footer `124px` -> `220px`; the section keeps `padding-top: 96px` and its own `padding-bottom` resolves to `192px`. `eslint .` -> 21 files, 0 problems; clean `astro build` -> 5 pages; emitted `.carousel[...]{padding-bottom:calc(var(--section-space) * 2)}`.
+- **L26** — T7 built (user: "Si haz la T7", 2026-11-17): the PC's page of S9 — all available PCs in a 3-column grid plus a left aside reserved for filters, consuming `PRODUCTS` from `products.ts` so the catalog has a single source.
+  Layout: `.catalog` is a two-column grid `260px minmax(0,1fr)` with `var(--gap-lg)`; the 3-column list resolves to `300px 300px 300px` inside the 948px main column, and the aside carries a `placeholder-panel` (the pattern already used for pending sections) labelled "Filtros" via `aria-label="Filtros de productos"`, announcing that marca/procesador/memoria/rango de precio arrive in the next increment. Cards are `.card` (blue, 12px) with the image at 8px on white, model as `h2` (page `h1` comes from `PageHeader`), the spec list with the same dot bullets as the offers, and the price at `25px` above a `--color-card-text` border, matching the carousel scale rather than the 30px offer scale.
+  Deliberate omission: the cards are `<article>`, not links, and carry no hover transform — the product detail page (T11) is explicitly deferred by the user, so a link would either point back to `/pcs` or nowhere. They become links in T11.
+  User confirmation (verbatim, 2026-11-17): "luego cuando hagamos las paginas de detalle pones la redireccion y tambien añades el transform para las animaciones." Recorded on the T11 row so the follow-up is not lost.
+  Verification (CDP): 7 `catalog__item`, per-row counts `3 / 3 / 1`, all cards exactly `300px` wide, grid columns `300px 300px 300px`, aside `260x147.56`, main `948` wide, count line "7 equipos disponibles" (singular/plural handled), prices `$950 ... $3.400` all at `25px`, heading order `h1 PC's` -> 7 `h2` product names, aside `aria-label` present. Row heights differ between rows (the spec list length varies) but every card inside a row is equal because the list items stretch. `eslint .` -> 21 files, 0 problems; clean `astro build` -> 5 pages; `dist/pcs/index.html` has the 7 cards, the count, the labelled aside and the `placeholder-panel`; emitted CSS carries `grid-template-columns:repeat(3,minmax(0,1fr))`.

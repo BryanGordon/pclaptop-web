@@ -1,6 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { PRODUCTS } from '../data/products'
+
+const priceFormatter = new Intl.NumberFormat('es-EC', {
+	style: 'currency',
+	currency: 'USD',
+	maximumFractionDigits: 0,
+})
 ---
 
 <BaseLayout title="PC's" description="Todos los equipos disponibles en PC Laptop.">
@@ -10,16 +17,150 @@ import PageHeader from '../components/PageHeader.astro';
 		description="Todos los equipos disponibles, con su ficha técnica completa."
 	/>
 
-	<div class="container">
-		<div class="placeholder-panel">
-			<strong>Grilla de productos y filtros en construcción</strong>
-			<p>A continuación: grid de 3 columnas con todos los equipos y un aside izquierdo para filtros.</p>
+	<div class="container catalog">
+		<aside class="catalog__filters" aria-label="Filtros de productos">
+			<div class="placeholder-panel">
+				<strong>Filtros</strong>
+				<p>Marca, procesador, memoria y rango de precio llegan en la siguiente entrega.</p>
+			</div>
+		</aside>
+
+		<div class="catalog__main">
+			<p class="catalog__count">
+				{PRODUCTS.length} {PRODUCTS.length === 1 ? 'equipo' : 'equipos'} disponibles
+			</p>
+
+			<ul class="catalog__grid">
+				{
+					PRODUCTS.map((product) => (
+						<li class="catalog__item">
+							<article class="card product-card">
+								<div class="product-card__media">
+									<img
+										class="product-card__image"
+										src={product.image.src}
+										width={product.image.width}
+										height={product.image.height}
+										alt={product.imageAlt}
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+
+								<div class="product-card__body">
+									<h2 class="product-card__model">{product.model}</h2>
+									<ul class="product-card__specs">
+										{product.specs.map((spec) => (
+											<li>{spec}</li>
+										))}
+									</ul>
+									<p class="product-card__price">{priceFormatter.format(product.price)}</p>
+								</div>
+							</article>
+						</li>
+					))
+				}
+			</ul>
 		</div>
 	</div>
 </BaseLayout>
 
 <style>
-	.container {
+	.catalog {
+		display: grid;
+		grid-template-columns: 260px minmax(0, 1fr);
+		align-items: start;
+		gap: var(--gap-lg);
 		padding-bottom: var(--section-space);
+	}
+
+	.catalog__filters .placeholder-panel {
+		padding: 24px;
+		font-size: var(--text-sm);
+	}
+
+	.catalog__main {
+		display: grid;
+		gap: var(--gap);
+	}
+
+	.catalog__count {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.catalog__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.catalog__item {
+		display: flex;
+	}
+
+	.product-card {
+		flex: 1;
+	}
+
+	.product-card__media {
+		padding: 20px 20px 0;
+	}
+
+	.product-card__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		background-color: #ffffff;
+	}
+
+	.product-card__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 14px;
+		padding: 20px;
+	}
+
+	.product-card__model {
+		font-size: var(--text-lg);
+		line-height: 1.25;
+	}
+
+	.product-card__specs {
+		display: grid;
+		gap: 6px;
+		color: var(--color-card-text);
+		font-size: var(--text-sm);
+		line-height: 1.45;
+	}
+
+	.product-card__specs li {
+		display: flex;
+		align-items: baseline;
+		gap: 8px;
+	}
+
+	.product-card__specs li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		background-color: currentcolor;
+		border-radius: 50%;
+		opacity: 0.6;
+	}
+
+	.product-card__price {
+		margin-top: auto;
+		padding-top: 16px;
+		border-top: 1px solid rgb(0 0 0 / 12%);
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: 25px;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1;
 	}
 </style>
