@@ -87,6 +87,13 @@ if (viewport && track && items && items.length > 0 && !reduceMotion) {
 		gap: 12px;
 	}
 
+	/* Twice the standard section space: between two sections the visual air is
+	   section-space + section-space, but the footer is not a section, so this
+	   last block would otherwise sit closer to it than every other transition. */
+	.carousel {
+		padding-bottom: calc(var(--section-space) * 2);
+	}
+
 	.carousel__viewport {
 		overflow-x: auto;
 		overscroll-behavior-x: contain;
