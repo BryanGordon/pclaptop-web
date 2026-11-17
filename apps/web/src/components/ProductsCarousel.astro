@@ -1,0 +1,159 @@
+---
+import { PRODUCTS } from '../data/products'
+
+const priceFormatter = new Intl.NumberFormat('es-EC', {
+	style: 'currency',
+	currency: 'USD',
+	maximumFractionDigits: 0,
+})
+---
+
+<section class="section carousel" aria-labelledby="carousel-title">
+	<div class="container">
+		<header class="section__header">
+			<div class="carousel__intro">
+				<p class="eyebrow">Catálogo</p>
+				<h2 id="carousel-title">Productos disponibles</h2>
+			</div>
+		</header>
+
+		<div
+			class="carousel__viewport"
+			tabindex="0"
+			role="region"
+			aria-label="Carrusel de productos"
+			data-carousel-viewport
+		>
+			<ul class="carousel__track" data-carousel-track>
+				{
+					PRODUCTS.map((product) => (
+						<li class="carousel__item">
+							<a class="card product" href={product.href}>
+								<div class="product__media">
+									<img
+										class="product__image"
+										src={product.image.src}
+										width={product.image.width}
+										height={product.image.height}
+										alt={product.imageAlt}
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+
+								<div class="product__body">
+									<h3 class="product__model">{product.model}</h3>
+									<p class="product__price">{priceFormatter.format(product.price)}</p>
+								</div>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<script>
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const viewport = document.querySelector<HTMLElement>('[data-carousel-viewport]')
+const track = document.querySelector<HTMLElement>('[data-carousel-track]')
+const items = track?.children
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+if (viewport && track && items && items.length > 0 && !reduceMotion) {
+  gsap.from(items, {
+    x: 40,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.06,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: viewport,
+      start: 'top 88%',
+      once: true,
+    },
+  })
+}
+</script>
+
+<style>
+	.carousel__intro {
+		display: grid;
+		gap: 12px;
+	}
+
+	.carousel__viewport {
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: 0;
+		scrollbar-width: thin;
+		scrollbar-color: rgb(242 242 242 / 30%) transparent;
+		padding-block: 4px 18px;
+	}
+
+	.carousel__viewport:focus-visible {
+		outline: 2px solid var(--color-heading);
+		outline-offset: 4px;
+		border-radius: var(--radius-card);
+	}
+
+	.carousel__track {
+		display: flex;
+		gap: var(--gap);
+	}
+
+	.carousel__item {
+		flex: 0 0 300px;
+		scroll-snap-align: start;
+	}
+
+	.product {
+		height: 100%;
+	}
+
+	.product__media {
+		padding: 20px 20px 0;
+	}
+
+	.product__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		background-color: #ffffff;
+		transition: transform var(--transition-base);
+	}
+
+	.product:hover .product__image {
+		transform: scale(1.03);
+	}
+
+	.product__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 10px;
+		padding: 16px 20px 20px;
+	}
+
+	.product__model {
+		font-size: var(--text-lg);
+		line-height: 1.25;
+	}
+
+	.product__price {
+		margin-top: auto;
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: 1.375rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+</style>
