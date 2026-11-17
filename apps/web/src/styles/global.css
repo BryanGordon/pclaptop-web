@@ -189,6 +189,14 @@ p {
 	background-color: rgb(242 242 242 / 8%);
 }
 
+/* Ghost variant used by the home bento link: stronger hover wash plus a white
+   under-edge. The shadow is deliberately crisp (0 blur, 0 spread) and offset
+   downwards so nothing lights up the top or the sides. */
+.btn--ghost-emphasis:hover {
+	background-color: rgb(242 242 242 / 10%);
+	box-shadow: 0 2px 0 rgb(242 242 242 / 32%);
+}
+
 /* ==========================================================================
    Cards
    ========================================================================== */
