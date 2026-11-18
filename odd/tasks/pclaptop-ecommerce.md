@@ -36,14 +36,15 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 | T2 | Home: hero + CTA | S8, S15 | inline | done (040b921) |
 | T3 | Home: offers (3 cards) | S8 | inline | done (ae5f1ac) |
 | T4 | Home: 4 square category cards (250px after L14) | S8 | inline | done (b4bdb38, 0b884c2) |
-| T5 | Home: bento of 3 banners | S8 | inline | done (03e5b2b; geometry corrected in L20, uncommitted) |
-| T6 | Home: products carousel (image + price) | S8 | inline | done (ProductsCarousel.astro + data/products.ts, uncommitted) |
-| T7 | PC's listing: 3-column grid + left filter aside | S9 | inline | done (pages/pcs.astro consuming data/products.ts, uncommitted) |
-| T8 | Otros productos: 2-column cards + category landing pages | S10 | inline | done (pages/otros-productos.astro + pages/otros-productos/[category].astro + data/other-products.ts, uncommitted) |
-| T9 | Contacto: map, phones, email, form | S11 | inline | done (pages/contacto.astro + data/contact.ts, uncommitted) |
-| T10 | Trabaja con nosotros: 4 step cards + form | S12 | inline | done (pages/trabaja-con-nosotros.astro + data/careers.ts, uncommitted) |
+| T5 | Home: bento of 3 banners | S8 | inline | done (03e5b2b; geometry corrected per L20 in 069c2e7, polish in 34db672 and 4261790) |
+| T6 | Home: products carousel (image + price) | S8 | inline | done (2f6dbd8; prices b73e3e6, spacing fef15e1, cards linked in 4322e82) |
+| T7 | PC's listing: 3-column grid + left filter aside | S9 | inline | done (2edbae1; cards linked in 4322e82) |
+| T8 | Otros productos: 2-column cards + category landing pages | S10 | inline | done (4a6cd99; hover glow in 269894e, all-products cards linked after T12 — see L36) |
+| T9 | Contacto: map, phones, email, form | S11 | inline | done (859abc3; shared fields in 857e30e) |
+| T10 | Trabaja con nosotros: 4 step cards + form | S12 | inline | done (89f2921) |
 | T11 | Product detail page + the T7 catalog cards become links | S8 | inline | done (4322e82) |
-| T12 | Detail pages for the other 9 products, same design as T11 (user, 2026-11-18) | S10 | inline | done (uncommitted) |
+| T12 | Detail pages for the other 9 products, same design as T11 (user, 2026-11-18) | S10 | inline | done (6471418) |
+| T13 | Design-system `:focus-visible` for links and cards (user: "guarda la recomendacion para elaborarla mucho mas adelante", 2026-11-18) | — | — | deferred by the client, do not start without a new request |
 
 ## Log
 
@@ -178,3 +179,10 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
   Images: all nine sources are 1024x1024 like the PCs, so the shared `aspect-ratio: 1/1` + `object-fit: cover` renders them unchanged; no per-category exception was needed.
   Verification (CDP + dist): all nine detail pages render their own `h1`, price and specs (1 to 4 `li`), image `604x604` loaded with `naturalWidth 1024`, grid `604px 604px` `align-items: center`, `h1` 44px `rgb(46,151,242)`, price 36px, specs in two `290px` columns, and both CTAs; the breadcrumb has the 4 expected items with the model as `aria-current="page"` and the right `href` on each crumb. The PC page after the refactor measures exactly as it did before the move (`604px 604px`, image `604x604` at `y=169.39`, specs `290px 290px`, same buttons and trail), so the extraction is a no-op for T11. `/otros-productos/monitores` renders 4 `<a>` cards (`display: flex`, `cursor: pointer`) pointing at the four nested routes, image `8px` / card `12px` radii, and a real pointer hover gives `matrix(1,0,0,1,0,-4)` with `rgba(0,0,0,.32) 0 18px 44px`. `eslint .` -> 31 files, 0 problems; clean `astro build` -> 25 pages (16 + 9).
   Open for the client: the specification sheets of these products are shorter than the PCs' (the Intel i9 has a single spec, `LGA 1700`), so some pages look sparse on the right column; and every price is still provisional.
+- **L36** — "Todos los productos" cards linked (user, verbatim, 2026-11-18): "Me he dado cuenta que hace falta ir a la pagina de detalles desde la pagina de otros productos, concretamente en la parte de todos los productos." The report was exact: `pages/otros-productos.astro` was the only remaining `ProductCard` call site without `href`, so its 9 row cards rendered as `<article>`. T11/T12 had covered `/pcs`, the offer cards and the four category pages, and the carousel, but not this section.
+  Fix: import `otherProductHref` and pass `href={otherProductHref(product)}` to each row card. No component change — `ProductCard` already swaps `Tag` to `a` when `href` is present, so the 9 cards inherit the global `.card:hover` lift, `cursor: pointer` and the `8px`/`12px` radii like the rest of the site.
+  Verification: `eslint .` -> 0 problems; clean `astro build` -> 25 pages; in `dist/otros-productos/index.html` the section now emits 9 `<a …class="card product-card product-card--row">` (was `<article>`), their `href` are the 9 nested routes, and all 9 `dist/otros-productos/<category>/<slug>/index.html` exist. `astro check` still reports its single pre-existing `astro.config.mjs` error (`Cannot find name 'node:url'`, no `@types/node`), unrelated to this change and present before it.
+  Still open for the client: this page's row cards and every other link rely on the browser default focus ring — see L37/T13.
+- **L37** — Focus-ring recommendation parked at the client's request (user, verbatim, 2026-11-18): "Me parece perfecto la observacion del focus, guarda la recomendacion para elaborarla mucho mas adelante."
+  Correction of my own report in L36's session: I said keyboard focus is *invisible* on cards. That was overstated and I verified the opposite — nothing in this project removes outlines; `grep` over `src` shows exactly two `:focus-visible` rules (`.form__control` -> `2px solid var(--color-card)` from L31/L32, and `.carousel__viewport` -> `2px solid var(--color-heading)` with `4px` offset), both confirmed again in the built CSS (`BaseLayout.*.css` and `index.*.css`). Every other link therefore keeps the user-agent ring. The real gap is consistency and contrast, not absence: the ring is the UA default (`outline: auto`/`-webkit-focus-ring-color`), it ignores the design tokens, and its contrast over `#2E97F2` cards and over the `#2E97F2` navbar has not been measured.
+  Scope to elaborate when T13 starts: one token-driven ring for `a`, `.btn` and `.card` (colour, width, offset, `border-radius` per shape), keyboard reachability of the hover-only states, `:focus-visible` vs `:focus` for the GSAP-driven navbar, and a contrast check of the chosen colour against `#010D26`, `#2E97F2` and `#ffffff` image plaques. Do not start it without a new client request.

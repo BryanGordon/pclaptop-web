@@ -2,7 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ProductCard from '../components/ProductCard.astro';
-import { OTHER_CATEGORIES, OTHER_PRODUCTS, getCategoryProducts } from '../data/other-products';
+import {
+	OTHER_CATEGORIES,
+	OTHER_PRODUCTS,
+	getCategoryProducts,
+	otherProductHref,
+} from '../data/other-products';
 
 const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'productos'}`;
 ---
@@ -52,7 +57,12 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 			<div class="others">
 				{
 					OTHER_PRODUCTS.map((product) => (
-						<ProductCard product={product} layout="row" headingLevel={3} />
+						<ProductCard
+							product={product}
+							layout="row"
+							headingLevel={3}
+							href={otherProductHref(product)}
+						/>
 					))
 				}
 			</div>
