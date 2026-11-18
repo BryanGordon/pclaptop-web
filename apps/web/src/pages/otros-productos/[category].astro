@@ -6,6 +6,7 @@ import {
 	OTHER_CATEGORIES,
 	getCategoryProducts,
 	getOtherCategory,
+	otherProductHref,
 	type OtherCategorySlug,
 } from '../../data/other-products';
 
@@ -37,7 +38,7 @@ const categoryName = category.label.toLowerCase();
 	>
 		{
 			products.map((product) => (
-				<ProductCard product={product} />
+				<ProductCard product={product} href={otherProductHref(product)} />
 			))
 		}
 	</Catalog>

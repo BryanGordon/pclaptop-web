@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductDetail from '../../../components/ProductDetail.astro';
+import {
+	OTHER_PRODUCTS,
+	getOtherCategory,
+	type OtherProduct,
+} from '../../../data/other-products';
+
+export function getStaticPaths() {
+	return OTHER_PRODUCTS.map((product) => ({
+		params: { category: product.category, slug: product.slug },
+		props: { product },
+	}));
+}
+
+const { product } = Astro.props as { product: OtherProduct };
+const category = getOtherCategory(product.category);
+---
+
+<BaseLayout
+	title={product.model}
+	description={`${product.model}: ficha técnica y precio en PC Laptop.`}
+>
+	<ProductDetail
+		model={product.model}
+		price={product.price}
+		specs={product.specs}
+		image={product.image}
+		imageAlt={product.imageAlt}
+		trail={[
+			{ label: 'Inicio', href: '/' },
+			{ label: 'Otros productos', href: '/otros-productos' },
+			{ label: category.label, href: `/otros-productos/${category.slug}` },
+			{ label: product.model },
+		]}
+		backHref={`/otros-productos/${category.slug}`}
+		backLabel={`Volver a ${category.label}`}
+	/>
+</BaseLayout>

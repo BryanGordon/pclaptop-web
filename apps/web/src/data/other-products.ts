@@ -135,3 +135,8 @@ export function getOtherCategory (slug: string): OtherCategory {
 export function getCategoryProducts (slug: OtherCategorySlug): OtherProduct[] {
   return OTHER_PRODUCTS.filter((product) => product.category === slug)
 }
+
+/** Detail page of a non-PC product. Derived so the route cannot drift. */
+export function otherProductHref (product: Pick<OtherProduct, 'category' | 'slug'>): string {
+  return `/otros-productos/${product.category}/${product.slug}`
+}
