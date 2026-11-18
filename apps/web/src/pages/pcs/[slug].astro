@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PRODUCTS, type Product } from '../../data/products';
+import { formatPrice } from '../../utils/format';
+
+export function getStaticPaths() {
+	return PRODUCTS.map((product) => ({
+		params: { slug: product.slug },
+		props: { product },
+	}));
+}
+
+const { product } = Astro.props as { product: Product };
+---
+
+<BaseLayout
+	title={product.model}
+	description={`${product.model}: ficha técnica y precio en PC Laptop.`}
+>
+	<div class="container">
+		<nav class="breadcrumb" aria-label="Ruta de navegación">
+			<ol>
+				<li><a href="/">Inicio</a></li>
+				<li><a href="/pcs">PC's</a></li>
+				<li aria-current="page">{product.model}</li>
+			</ol>
+		</nav>
+
+		<article class="detail">
+			<img
+				class="detail__image"
+				src={product.image.src}
+				width={product.image.width}
+				height={product.image.height}
+				alt={product.imageAlt}
+				fetchpriority="high"
+				decoding="async"
+			/>
+
+			<div class="detail__body">
+				<h1 class="detail__model">{product.model}</h1>
+				<p class="detail__price">{formatPrice(product.price)}</p>
+
+				<ul class="detail__specs">
+					{product.specs.map((spec) => <li>{spec}</li>)}
+				</ul>
+
+				<div class="detail__actions">
+					<a class="btn btn--primary" href="/contacto">Consultar disponibilidad</a>
+					<a class="btn btn--ghost" href="/pcs">Volver al catálogo</a>
+				</div>
+			</div>
+		</article>
+	</div>
+</BaseLayout>
+
+<style>
+	.breadcrumb {
+		padding-block: 40px 0;
+	}
+
+	.breadcrumb ol {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.breadcrumb li + li::before {
+		content: '/';
+		margin-right: 8px;
+		color: rgb(242 242 242 / 34%);
+	}
+
+	.breadcrumb a:hover {
+		color: var(--color-text);
+	}
+
+	.breadcrumb [aria-current='page'] {
+		color: var(--color-text);
+	}
+
+	.detail {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: center;
+		gap: var(--gap-lg);
+		padding-block: 32px var(--section-space);
+	}
+
+	.detail__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		background-color: #ffffff;
+	}
+
+	.detail__body {
+		display: grid;
+		gap: 24px;
+	}
+
+	.detail__model {
+		font-size: var(--text-2xl);
+	}
+
+	.detail__price {
+		color: var(--color-text);
+		font-family: var(--font-display);
+		font-size: 36px;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.detail__specs {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px 24px;
+		padding-top: 24px;
+		border-top: 1px solid var(--color-border);
+		color: var(--color-text-muted);
+		line-height: 1.45;
+	}
+
+	.detail__specs li {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+	}
+
+	.detail__specs li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		background-color: currentcolor;
+		border-radius: 50%;
+		opacity: 0.55;
+	}
+
+	.detail__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+</style>

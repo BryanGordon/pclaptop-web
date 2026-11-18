@@ -1,11 +1,7 @@
 ---
 import { OFFERS } from '../data/offers'
-
-const priceFormatter = new Intl.NumberFormat('es-EC', {
-	style: 'currency',
-	currency: 'USD',
-	maximumFractionDigits: 0,
-})
+import { productHref } from '../data/products'
+import { formatPrice } from '../utils/format'
 ---
 
 <section class="section offers" aria-labelledby="offers-title">
@@ -22,7 +18,7 @@ const priceFormatter = new Intl.NumberFormat('es-EC', {
 			{
 				OFFERS.map((offer) => (
 					<li class="offers__item" data-offer>
-						<a class="card offer" href={offer.href}>
+						<a class="card offer" href={productHref(offer.slug)}>
 							<div class="offer__media">
 								<img
 									class="offer__image"
@@ -44,7 +40,7 @@ const priceFormatter = new Intl.NumberFormat('es-EC', {
 								</ul>
 
 								<div class="offer__footer">
-									<p class="offer__price">{priceFormatter.format(offer.price)}</p>
+									<p class="offer__price">{formatPrice(offer.price)}</p>
 									<span class="offer__cta">Ver producto</span>
 								</div>
 							</div>

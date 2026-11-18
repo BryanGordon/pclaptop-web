@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Catalog from '../components/Catalog.astro';
 import ProductCard from '../components/ProductCard.astro';
-import { PRODUCTS } from '../data/products'
+import { PRODUCTS, productHref } from '../data/products'
 
 const countText = `${PRODUCTS.length} ${PRODUCTS.length === 1 ? 'equipo' : 'equipos'} disponibles`
 ---
@@ -18,7 +18,7 @@ const countText = `${PRODUCTS.length} ${PRODUCTS.length === 1 ? 'equipo' : 'equi
 	>
 		{
 			PRODUCTS.map((product) => (
-				<ProductCard product={product} />
+				<ProductCard product={product} href={productHref(product.slug)} />
 			))
 		}
 	</Catalog>

@@ -1,11 +1,6 @@
 ---
-import { PRODUCTS } from '../data/products'
-
-const priceFormatter = new Intl.NumberFormat('es-EC', {
-	style: 'currency',
-	currency: 'USD',
-	maximumFractionDigits: 0,
-})
+import { PRODUCTS, productHref } from '../data/products'
+import { formatPrice } from '../utils/format'
 ---
 
 <section class="section carousel" aria-labelledby="carousel-title">
@@ -28,7 +23,7 @@ const priceFormatter = new Intl.NumberFormat('es-EC', {
 				{
 					PRODUCTS.map((product) => (
 						<li class="carousel__item">
-							<a class="card product" href={product.href}>
+							<a class="card product" href={productHref(product.slug)}>
 								<div class="product__media">
 									<img
 										class="product__image"
@@ -43,7 +38,7 @@ const priceFormatter = new Intl.NumberFormat('es-EC', {
 
 								<div class="product__body">
 									<h3 class="product__model">{product.model}</h3>
-									<p class="product__price">{priceFormatter.format(product.price)}</p>
+									<p class="product__price">{formatPrice(product.price)}</p>
 								</div>
 							</a>
 						</li>

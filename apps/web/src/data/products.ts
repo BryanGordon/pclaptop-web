@@ -15,8 +15,10 @@ export interface Product {
   specs: string[]
   image: ImageMetadata
   imageAlt: string
-  href: string
 }
+
+/** Detail page of a catalog product. Derived so the route cannot drift. */
+export const productHref = (slug: string) => `/pcs/${slug}`
 
 /**
  * Full laptop catalog. Single source of truth for every section that lists
@@ -27,7 +29,6 @@ export interface Product {
  * Technical info is transcribed from the `media/pcs` file names (`_` read as
  * the inch mark, `W11` shown as `Windows 11`); truncated fragments at the end of
  * a file name are left out instead of being invented.
- * `href` points to the listing until the product detail page exists (T11).
  */
 export const PRODUCTS: Product[] = [
   {
@@ -44,7 +45,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: vivobook15,
     imageAlt: 'Laptop Asus Vivobook 15 sobre fondo blanco',
-    href: '/pcs',
   },
   {
     slug: 'asus-tuf-a15',
@@ -60,7 +60,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: tufA15,
     imageAlt: 'Laptop gaming Asus TUF A15 con teclado retroiluminado',
-    href: '/pcs',
   },
   {
     slug: 'asus-v16',
@@ -76,7 +75,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: v16,
     imageAlt: 'Laptop Asus V16 con pantalla de 16 pulgadas',
-    href: '/pcs',
   },
   {
     slug: 'asus-rog-strix-g16',
@@ -92,7 +90,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: rogStrixG16,
     imageAlt: 'Laptop gaming Asus ROG Strix G16',
-    href: '/pcs',
   },
   {
     slug: 'alienware-aurora-16',
@@ -107,7 +104,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: alienwareAurora16,
     imageAlt: 'Laptop Alienware Aurora 16 sobre fondo blanco',
-    href: '/pcs',
   },
   {
     slug: 'asus-rog-strix-gm700',
@@ -121,7 +117,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: rogStrixGm700,
     imageAlt: 'Desktop Asus ROG Strix GM700 sobre fondo blanco',
-    href: '/pcs',
   },
   {
     slug: 'hp-omen-max-16',
@@ -136,6 +131,5 @@ export const PRODUCTS: Product[] = [
     ],
     image: hpOmenMax16,
     imageAlt: 'Laptop HP Omen Max 16 sobre fondo blanco',
-    href: '/pcs',
   },
 ]
