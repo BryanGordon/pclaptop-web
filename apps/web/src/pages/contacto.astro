@@ -172,67 +172,9 @@ import { CONTACT } from '../data/contact';
 		gap: 12px;
 	}
 
+	/* Field look, states and the full-width pieces come from `global.css`; only
+	   the column layout is this page's own. */
 	.form {
-		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--gap);
-	}
-
-	.form__field--full {
-		grid-column: 1 / -1;
-	}
-
-	.form__label {
-		display: block;
-		margin-bottom: 8px;
-		color: var(--color-text);
-		font-size: var(--text-sm);
-		font-weight: 600;
-	}
-
-	.form__optional {
-		color: var(--color-text-muted);
-		font-weight: 400;
-	}
-
-	.form__control {
-		width: 100%;
-		padding: 13px 16px;
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-image);
-		color: var(--color-text);
-		transition:
-			border-color var(--transition-base),
-			background-color var(--transition-base);
-	}
-
-	.form__control:hover {
-		border-color: rgb(242 242 242 / 24%);
-	}
-
-	.form__control:focus-visible {
-		border-color: var(--color-card);
-		outline: 2px solid var(--color-card);
-		outline-offset: 2px;
-	}
-
-	.form__control--area {
-		min-height: 150px;
-		padding: 13px 16px;
-		line-height: 1.6;
-		resize: vertical;
-	}
-
-	.form__actions {
-		display: flex;
-		align-items: center;
-		grid-column: 1 / -1;
-		gap: var(--gap);
-	}
-
-	.form__note {
-		color: var(--color-text-muted);
-		font-size: var(--text-sm);
 	}
 </style>
