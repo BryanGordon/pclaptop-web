@@ -218,6 +218,16 @@ p {
 	box-shadow: var(--shadow-card);
 }
 
+/* Hover-only bottom edge in the site white (`--color-text`). A black drop
+   shadow cannot read on the #010D26 page (measured: only 4-13/255 darker right
+   under the card), so the edge is what carries the hover. It is composed with
+   `--shadow-card` because this same selector would otherwise overwrite it. */
+.card--glow:hover {
+	box-shadow:
+		0 6px 8px var(--color-text),
+		var(--shadow-card);
+}
+
 .card :is(h2, h3, h4) {
 	color: var(--color-card-title);
 }

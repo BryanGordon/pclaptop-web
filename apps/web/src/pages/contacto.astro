@@ -22,7 +22,7 @@ import { CONTACT } from '../data/contact';
 			></iframe>
 
 			<dl class="contact__details">
-				<div class="card contact__card">
+				<div class="card card--glow contact__card">
 					<dt>Dirección</dt>
 					<dd>
 						{CONTACT.address}
@@ -32,12 +32,12 @@ import { CONTACT } from '../data/contact';
 					</dd>
 				</div>
 
-				<div class="card contact__card">
+				<div class="card card--glow contact__card">
 					<dt>Teléfono</dt>
 					<dd><a class="contact__link" href={CONTACT.phoneHref}>{CONTACT.phone}</a></dd>
 				</div>
 
-				<div class="card contact__card">
+				<div class="card card--glow contact__card">
 					<dt>Correo</dt>
 					<dd><a class="contact__link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></dd>
 				</div>

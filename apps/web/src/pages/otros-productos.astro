@@ -27,7 +27,7 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 				{
 					OTHER_CATEGORIES.map((category) => (
 						<li>
-							<a class="card category" href={`/otros-productos/${category.slug}`}>
+							<a class="card card--glow category" href={`/otros-productos/${category.slug}`}>
 								<h3>{category.label}</h3>
 								<p>{category.description}</p>
 								<span class="category__count">
@@ -91,16 +91,6 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 		gap: 8px;
 		height: 100%;
 		padding: 28px 24px;
-	}
-
-	/* Hover-only bottom edge in the site white (`--color-text`). A black drop
-	   shadow cannot read on the #010D26 page (measured: only 4-13/255 darker
-	   right under the card), so the edge is what carries the hover. It is
-	   composed with `--shadow-card` because `.card:hover` would overwrite it. */
-	.category:hover {
-		box-shadow:
-			0 6px 8px var(--color-text),
-			var(--shadow-card);
 	}
 
 	.category h3 {
