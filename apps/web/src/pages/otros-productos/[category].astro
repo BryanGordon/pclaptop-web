@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Catalog from '../../components/Catalog.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import {
+	OTHER_CATEGORIES,
+	getCategoryProducts,
+	getOtherCategory,
+	type OtherCategorySlug,
+} from '../../data/other-products';
+
+export function getStaticPaths() {
+	return OTHER_CATEGORIES.map((category) => ({
+		params: { category: category.slug },
+		props: { slug: category.slug as OtherCategorySlug },
+	}));
+}
+
+const { slug } = Astro.props;
+const category = getOtherCategory(slug);
+const products = getCategoryProducts(slug);
+const countText = `${products.length} ${products.length === 1 ? 'producto disponible' : 'productos disponibles'}`;
+const categoryName = category.label.toLowerCase();
+---
+
+<BaseLayout
+	title={`${category.label} | Otros productos`}
+	description={`${category.label} disponibles en PC Laptop. ${category.description}`}
+>
+	<Catalog
+		eyebrow="Otros productos"
+		title={category.label}
+		description={category.description}
+		countText={countText}
+		filtersLabel={`Filtros de ${categoryName}`}
+		filtersNote="Marca, tipo y rango de precio llegan en la siguiente entrega."
+	>
+		{
+			products.map((product) => (
+				<ProductCard product={product} />
+			))
+		}
+	</Catalog>
+</BaseLayout>

@@ -13,8 +13,7 @@ export interface ProductCategory {
 }
 
 /**
- * Home category tiles. Each category gets its own landing page in T8; until
- * then every tile points to the shared "otros productos" listing.
+ * Home category tiles. Each one links to its own landing page, built in T8.
  */
 export const CATEGORY_TILES: ProductCategory[] = [
   {
@@ -22,27 +21,27 @@ export const CATEGORY_TILES: ProductCategory[] = [
     label: 'Monitores',
     image: monitorGigabyte,
     imageAlt: 'Monitor gaming Gigabyte M27Q2 de 27 pulgadas en color blanco',
-    href: '/otros-productos',
+    href: '/otros-productos/monitores',
   },
   {
     slug: 'componentes',
     label: 'Componentes',
     image: tarjetaVideo,
     imageAlt: 'Tarjeta de video Gigabyte GeForce RTX 5060 Eagle Max OC',
-    href: '/otros-productos',
+    href: '/otros-productos/componentes',
   },
   {
     slug: 'impresoras',
     label: 'Impresoras',
     image: impresoraEpson,
     imageAlt: 'Impresora multifuncional Epson L4260',
-    href: '/otros-productos',
+    href: '/otros-productos/impresoras',
   },
   {
     slug: 'repuestos',
     label: 'Repuestos',
     image: tecladoDell,
     imageAlt: 'Teclado de repuesto para laptop Dell GAMORA 15-5567',
-    href: '/otros-productos',
+    href: '/otros-productos/repuestos',
   },
 ]

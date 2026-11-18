@@ -1,0 +1,63 @@
+---
+import PageHeader from './PageHeader.astro'
+
+export interface Props {
+	eyebrow?: string
+	title: string
+	description?: string
+	countText: string
+	filtersLabel: string
+	filtersNote: string
+}
+
+const { eyebrow, title, description, countText, filtersLabel, filtersNote } = Astro.props
+---
+
+<PageHeader eyebrow={eyebrow} title={title} description={description} />
+
+<div class="container catalog">
+	<aside class="catalog__filters" aria-label={filtersLabel}>
+		<div class="placeholder-panel">
+			<strong>Filtros</strong>
+			<p>{filtersNote}</p>
+		</div>
+	</aside>
+
+	<div class="catalog__main">
+		<p class="catalog__count">{countText}</p>
+		<div class="catalog__grid">
+			<slot />
+		</div>
+	</div>
+</div>
+
+<style>
+	.catalog {
+		display: grid;
+		grid-template-columns: 260px minmax(0, 1fr);
+		align-items: start;
+		gap: var(--gap-lg);
+		padding-bottom: var(--section-space);
+	}
+
+	.catalog__filters .placeholder-panel {
+		padding: 24px;
+		font-size: var(--text-sm);
+	}
+
+	.catalog__main {
+		display: grid;
+		gap: var(--gap);
+	}
+
+	.catalog__count {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.catalog__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+</style>

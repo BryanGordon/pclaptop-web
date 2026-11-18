@@ -1,0 +1,132 @@
+---
+import type { ImageMetadata } from 'astro'
+
+export interface Props {
+	product: {
+		model: string
+		price: number
+		specs: string[]
+		image: ImageMetadata
+		imageAlt: string
+	}
+	/** `grid` stacks image over body; `row` puts the image beside the body. */
+	layout?: 'grid' | 'row'
+	/** Heading used for the model, so the page keeps a valid outline. */
+	headingLevel?: 2 | 3
+}
+
+const { product, layout = 'grid', headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+
+const priceFormatter = new Intl.NumberFormat('es-EC', {
+	style: 'currency',
+	currency: 'USD',
+	maximumFractionDigits: 0,
+});
+---
+
+<article class:list={['card', 'product-card', `product-card--${layout}`]}>
+	<div class="product-card__media">
+		<img
+			class="product-card__image"
+			src={product.image.src}
+			width={product.image.width}
+			height={product.image.height}
+			alt={product.imageAlt}
+			loading="lazy"
+			decoding="async"
+		/>
+	</div>
+
+	<div class="product-card__body">
+		<Heading class="product-card__model">{product.model}</Heading>
+		<ul class="product-card__specs">
+			{
+				product.specs.map((spec) => (
+					<li>{spec}</li>
+				))
+			}
+		</ul>
+		<p class="product-card__price">{priceFormatter.format(product.price)}</p>
+	</div>
+</article>
+
+<style>
+	.product-card {
+		flex: 1;
+	}
+
+	.product-card__media {
+		padding: 20px 20px 0;
+	}
+
+	.product-card__image {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: var(--radius-image);
+		background-color: #ffffff;
+	}
+
+	.product-card__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 14px;
+		padding: 20px;
+	}
+
+	.product-card__model {
+		font-size: var(--text-lg);
+		line-height: 1.25;
+	}
+
+	.product-card__specs {
+		display: grid;
+		gap: 6px;
+		color: var(--color-card-text);
+		font-size: var(--text-sm);
+		line-height: 1.45;
+	}
+
+	.product-card__specs li {
+		display: flex;
+		align-items: baseline;
+		gap: 8px;
+	}
+
+	.product-card__specs li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 5px;
+		height: 5px;
+		background-color: currentcolor;
+		border-radius: 50%;
+		opacity: 0.6;
+	}
+
+	.product-card__price {
+		margin-top: auto;
+		padding-top: 16px;
+		border-top: 1px solid rgb(0 0 0 / 12%);
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: 25px;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.product-card--row {
+		flex-direction: row;
+	}
+
+	.product-card--row .product-card__media {
+		flex: 0 0 240px;
+		padding: 20px 0 20px 20px;
+	}
+
+	.product-card--row .product-card__body {
+		padding: 20px 24px 20px 20px;
+	}
+</style>
