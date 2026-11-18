@@ -1,6 +1,7 @@
 ---
 import logo from '@media/logo.jpg';
 import { NAV_ITEMS, PRODUCT_CATEGORIES, SITE_NAME, SITE_TAGLINE } from '../consts';
+import { CONTACT } from '../data/contact';
 
 const year = new Date().getFullYear();
 ---
@@ -55,8 +56,8 @@ const year = new Date().getFullYear();
 		<div class="footer__column">
 			<h2 class="footer__title">Contacto</h2>
 			<ul class="footer__list">
-				<li><a class="footer__link" href="tel:+000000000">+00 000 000 000</a></li>
-				<li><a class="footer__link" href="mailto:ventas@pclaptop.com">ventas@pclaptop.com</a></li>
+				<li><a class="footer__link" href={CONTACT.phoneHref}>{CONTACT.phone}</a></li>
+				<li><a class="footer__link" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
 				<li><a class="footer__link" href="/contacto">Ver direcciones</a></li>
 			</ul>
 		</div>
