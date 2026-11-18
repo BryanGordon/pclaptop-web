@@ -1,28 +1,159 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { CAREER_STEPS } from '../data/careers';
+
+const stepLabel = (index: number) => String(index + 1).padStart(2, '0');
 ---
 
 <BaseLayout
 	title="Trabaja con nosotros"
-	description="Conoce los pasos para acceder al beneficio y postúlate."
+	description="Regístrate como distribuidor y accede a precios mayoristas, productos de última generación y soporte especializado."
 >
 	<PageHeader
-		eyebrow="Únete al equipo"
+		eyebrow="Distribuidores"
 		title="Trabaja con nosotros"
-		description="Cuatro pasos claros para acceder al beneficio de colaboradores."
+		description="Forma parte de nuestra red de distribuidores y accede a precios mayoristas, productos de última generación y soporte especializado."
 	/>
 
-	<div class="container note">
-		<div class="placeholder-panel">
-			<strong>Próxima entrega</strong>
-			<p>Cards con los 4 pasos del proceso y el formulario de postulación.</p>
-		</div>
+	<div class="container careers">
+		<section aria-labelledby="careers-steps-title">
+			<header class="section__header">
+				<div class="careers__intro">
+					<p class="eyebrow">Proceso</p>
+					<h2 id="careers-steps-title">Cómo registrarte</h2>
+				</div>
+			</header>
+
+			<ol class="steps" role="list">
+				{
+					CAREER_STEPS.map((step, index) => (
+						<li class="card card--glow step">
+							<span class="step__index">{stepLabel(index)}</span>
+							<h3 class="step__title">{step.title}</h3>
+							<p class="step__text">{step.description}</p>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+		<section aria-labelledby="careers-form-title">
+			<header class="section__header">
+				<div class="careers__intro">
+					<p class="eyebrow">Registro</p>
+					<h2 id="careers-form-title">Completa tus datos</h2>
+				</div>
+			</header>
+
+			<form class="form">
+				<div class="form__field">
+					<label class="form__label" for="careers-name">Nombre</label>
+					<input
+						class="form__control"
+						id="careers-name"
+						name="name"
+						type="text"
+						autocomplete="name"
+						required
+					/>
+				</div>
+
+				<div class="form__field">
+					<label class="form__label" for="careers-email">Correo</label>
+					<input
+						class="form__control"
+						id="careers-email"
+						name="email"
+						type="email"
+						autocomplete="email"
+						required
+					/>
+				</div>
+
+				<div class="form__field">
+					<label class="form__label" for="careers-phone">
+						Teléfono <span class="form__optional">(opcional)</span>
+					</label>
+					<input
+						class="form__control"
+						id="careers-phone"
+						name="phone"
+						type="tel"
+						autocomplete="tel"
+					/>
+				</div>
+
+				<div class="form__field">
+					<label class="form__label" for="careers-company">Empresa</label>
+					<input
+						class="form__control"
+						id="careers-company"
+						name="company"
+						type="text"
+						autocomplete="organization"
+						required
+					/>
+				</div>
+
+				<div class="form__actions">
+					<button class="btn btn--primary" type="button">Enviar registro</button>
+					<p class="form__note">El envío se conecta cuando esté listo el backend.</p>
+				</div>
+			</form>
+		</section>
 	</div>
 </BaseLayout>
 
 <style>
-	.note {
+	.careers {
+		display: grid;
+		gap: var(--section-space);
 		padding-bottom: var(--section-space);
+	}
+
+	.careers__intro {
+		display: grid;
+		gap: 12px;
+	}
+
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.step {
+		gap: 12px;
+		padding: 28px 24px;
+	}
+
+	.step__index {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		background-color: var(--color-card-contrast);
+		border-radius: var(--radius-pill);
+		color: var(--color-card-title);
+		font-family: var(--font-display);
+		font-size: var(--text-base);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+	}
+
+	.step__title {
+		font-size: var(--text-lg);
+	}
+
+	.step__text {
+		font-size: var(--text-sm);
+	}
+
+	/* The shared field styles live in `global.css`; only the column layout is
+	   this page's own. */
+	.form {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 </style>
