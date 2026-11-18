@@ -93,6 +93,16 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 		padding: 28px 24px;
 	}
 
+	/* Hover-only bottom edge in the site white (`--color-text`). A black drop
+	   shadow cannot read on the #010D26 page (measured: only 4-13/255 darker
+	   right under the card), so the edge is what carries the hover. It is
+	   composed with `--shadow-card` because `.card:hover` would overwrite it. */
+	.category:hover {
+		box-shadow:
+			0 6px 8px var(--color-text),
+			var(--shadow-card);
+	}
+
 	.category h3 {
 		font-size: var(--text-lg);
 	}
