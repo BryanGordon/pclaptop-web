@@ -16,15 +16,21 @@ export interface Props {
 	headingLevel?: 2 | 3
 	/** Detail page of the product; without it the card is not a link. */
 	href?: string
+	/**
+	 * Puts the price right below the model and moves the divider under the
+	 * price, ahead of the specs. The markup moves with it, so the reading
+	 * order keeps matching what the eye sees.
+	 */
+	priceFirst?: boolean
 }
 
-const { product, layout = 'grid', headingLevel = 2, href } = Astro.props;
+const { product, layout = 'grid', headingLevel = 2, href, priceFirst = false } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const Tag = href ? 'a' : 'article';
 const linkAttrs = href ? { href } : {};
 ---
 
-<Tag class:list={['card', 'product-card', `product-card--${layout}`]} {...linkAttrs}>
+<Tag class:list={['card', 'product-card', `product-card--${layout}`, priceFirst && 'product-card--price-first']} {...linkAttrs}>
 	<div class="product-card__media">
 		<img
 			class="product-card__image"
@@ -39,6 +45,9 @@ const linkAttrs = href ? { href } : {};
 
 	<div class="product-card__body">
 		<Heading class="product-card__model">{product.model}</Heading>
+		{
+			priceFirst && <p class="product-card__price">{formatPrice(product.price)}</p>
+		}
 		<ul class="product-card__specs">
 			{
 				product.specs.map((spec) => (
@@ -46,7 +55,9 @@ const linkAttrs = href ? { href } : {};
 				))
 			}
 		</ul>
-		<p class="product-card__price">{formatPrice(product.price)}</p>
+		{
+			!priceFirst && <p class="product-card__price">{formatPrice(product.price)}</p>
+		}
 	</div>
 </Tag>
 
@@ -127,5 +138,16 @@ const linkAttrs = href ? { href } : {};
 
 	.product-card--row .product-card__body {
 		padding: 20px 24px 20px 20px;
+	}
+
+	/* Price under the model, divider under the price, specs last. Only the
+	   other-products page asks for this arrangement; grid cards keep the price
+	   anchored to the bottom with its divider above it. */
+	.product-card--price-first .product-card__price {
+		margin-top: 0;
+		padding-top: 0;
+		padding-bottom: 12px;
+		border-top: 0;
+		border-bottom: 1px solid rgb(0 0 0 / 12%);
 	}
 </style>

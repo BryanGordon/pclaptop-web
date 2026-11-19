@@ -23,7 +23,6 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 		<section aria-labelledby="other-categories-title">
 			<header class="section__header">
 				<div class="other__intro">
-					<p class="eyebrow">Categorías</p>
 					<h2 id="other-categories-title">Explora por categoría</h2>
 				</div>
 			</header>
@@ -62,6 +61,7 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 							layout="row"
 							headingLevel={3}
 							href={otherProductHref(product)}
+							priceFirst
 						/>
 					))
 				}
@@ -80,7 +80,10 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 	.other {
 		display: grid;
 		gap: var(--section-space);
-		padding-bottom: var(--section-space);
+		/* Same closing space as the home carousel (L25): between two sections the
+		   air is section-space + section-space, but the footer is not a section,
+		   so without this the last block would sit half as far from it. */
+		padding-bottom: calc(var(--section-space) * 2);
 	}
 
 	.other .section__header {
