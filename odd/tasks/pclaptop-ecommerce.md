@@ -46,7 +46,8 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
 | T12 | Detail pages for the other 9 products, same design as T11 (user, 2026-11-18) | S10 | inline | done (6471418) |
 | T13 | Design-system `:focus-visible` for links and cards (user: "guarda la recomendacion para elaborarla mucho mas adelante", 2026-11-18) | — | — | deferred by the client, do not start without a new request |
 | T14 | Optimization round: navbar + footer background `#FBFCF6`, navbar logo shadow darkened (2026-11-18) | S6, S7 | inline | done (0d388c0) |
-| T15 | Move the home "Destacados" CTA from the bento header to the categories header, pointing at the all-products section (2026-11-19) | S8, S10 | inline | done (uncommitted) |
+| T15 | Move the home "Destacados" CTA from the bento header to the categories header, pointing at the all-products section (2026-11-19) | S8, S10 | inline | done (b5902d6) |
+| T16 | Home copy: bento `h2` -> "Marcas destacadas", carousel `h2` -> "Algunos de nuestros productos" (2026-11-19) | S8 | inline | done (uncommitted) |
 
 ## Log
 
@@ -213,3 +214,8 @@ Branch: `feat/front-foundation` · Delivery: `ask-on-risk` · Test runner: none 
   Verification (CDP): offers CTA `btn btn--ghost-emphasis`, text "Ver todos los PCs", `href /pcs`, resting `background rgba(0,0,0,0)` + `box-shadow none`; hover `background rgba(242,242,242,.1)` + `box-shadow rgba(242,242,242,.32) 0px 2px 0px 0px` — byte-identical computed values to the categories CTA. `.bento .btn` still absent. `eslint .` clean, `astro build` 25 pages.
   Dead-code check: `.btn--ghost` is no longer used by the section headers, but `ProductDetail.astro` still uses it for its secondary CTA, so the plain variant stays in `global.css` with its quieter `8%` hover.
   Deferred by the client in the same message (verbatim): "En la pagina de lo products details lo vamos a arreglar mas adelante." Nothing in `ProductDetail.astro` was touched; whatever needs fixing there — the plain `btn--ghost` CTA is the obvious candidate — waits for a new request.
+- **L42** — Two home section titles renamed (user, verbatim, 2026-11-19): "Ok, me olvide de decirte de cambiar los textos de algunos h1 en el home. En lineas destacadas vamos a cambiarlo por Marcas destacadas, y en productos disponibles por Algunos de nuestros productos."
+  Change: `<h2 id="bento-title">` in `Bento.astro` goes from "Líneas destacadas" to "Marcas destacadas", and `<h2 id="carousel-title">` in `ProductsCarousel.astro` from "Productos disponibles" to "Algunos de nuestros productos". Text only — ids, `aria-labelledby`, eyebrows, layout and classes untouched, so the sections keep their landmarks and the existing CSS keeps working.
+  Element level: the client said "h1", but on the home both are `h2`. The page's single `h1` is the hero headline, so relabelling these as `h1` would break the outline; the copy was changed in place instead. Worth remembering that the client says "h1" for "section heading".
+  Note for L40 readers: the bento `h2` quoted there as "Líneas destacadas" is now "Marcas destacadas"; the eyebrow still reads "Destacados", so the header now says "DESTACADOS / Marcas destacadas" — mild redundancy, left alone because only the title was requested.
+  Verification: `grep` over `dist/index.html` returns exactly the two new strings and neither old one; 1440px screenshots show both titles on a single line inside their `.section__header` (the carousel one is the longer risk and does not wrap). `eslint .` clean, `astro build` 25 pages.
