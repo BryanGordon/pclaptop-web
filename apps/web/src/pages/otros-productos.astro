@@ -45,7 +45,7 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 			</ul>
 		</section>
 
-		<section aria-labelledby="other-products-title">
+		<section id="todos-los-productos" aria-labelledby="other-products-title">
 			<header class="section__header">
 				<div class="other__intro">
 					<p class="eyebrow">Catálogo completo</p>
@@ -71,6 +71,12 @@ const countText = (count: number) => `${count} ${count === 1 ? 'producto' : 'pro
 </BaseLayout>
 
 <style>
+	/* Clears the sticky navbar (2×15px + 44px logo = 74px) plus breathing room,
+	   so the home button lands on the section title instead of under the bar. */
+	#todos-los-productos {
+		scroll-margin-top: calc(var(--navbar-padding-block) * 2 + 44px + 16px);
+	}
+
 	.other {
 		display: grid;
 		gap: var(--section-space);
