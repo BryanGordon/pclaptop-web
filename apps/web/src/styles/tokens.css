@@ -56,5 +56,5 @@
 	/* Effects */
 	--shadow-card: 0 18px 44px rgb(0 0 0 / 32%);
 	--shadow-navbar: 0 10px 30px rgb(0 0 0 / 24%);
-	--transition-base: 220ms ease;
+	--transition-base: 250ms ease-in;
 }
