@@ -23,7 +23,7 @@ export const HOME_BANNERS: HomeBanner[] = [
     brand: 'Gigabyte',
     image: gigabyteA16,
     imageAlt: 'Laptop Gigabyte Gaming A16 encendida sobre un fondo oscuro',
-    href: '/pcs',
+    href: '/equipos',
     size: 'wide',
   },
   {
@@ -31,7 +31,7 @@ export const HOME_BANNERS: HomeBanner[] = [
     brand: 'Asus Empresarial',
     image: expertBook,
     imageAlt: 'Laptop Asus ExpertBook de negocios sobre un fondo claro',
-    href: '/pcs',
+    href: '/equipos',
     size: 'small',
   },
   {
@@ -39,7 +39,7 @@ export const HOME_BANNERS: HomeBanner[] = [
     brand: 'Asus',
     image: zenbook14,
     imageAlt: 'Laptop Asus Zenbook 14 OLED abierta sobre una superficie gris, vista desde atrás',
-    href: '/pcs',
+    href: '/equipos',
     size: 'small',
   },
 ]

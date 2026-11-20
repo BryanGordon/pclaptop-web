@@ -25,10 +25,10 @@ const { product } = Astro.props as { product: Product };
 		imageAlt={product.imageAlt}
 		trail={[
 			{ label: 'Inicio', href: '/' },
-			{ label: "PC's", href: '/pcs' },
+			{ label: 'Equipos', href: '/equipos' },
 			{ label: product.model },
 		]}
-		backHref="/pcs"
+		backHref="/equipos"
 		backLabel="Volver al catálogo"
 	/>
 </BaseLayout>

@@ -18,7 +18,7 @@ export interface Product {
 }
 
 /** Detail page of a catalog product. Derived so the route cannot drift. */
-export const productHref = (slug: string) => `/pcs/${slug}`
+export const productHref = (slug: string) => `/equipos/${slug}`
 
 /**
  * Full laptop catalog. Single source of truth for every section that lists
