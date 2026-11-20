@@ -108,7 +108,10 @@ const stepLabel = (index: number) => String(index + 1).padStart(2, '0');
 	.careers {
 		display: grid;
 		gap: var(--section-space);
-		padding-bottom: var(--section-space);
+		/* Same closing space as the home carousel (L25) and the other pages:
+		   the footer is not a section, so without this the form would sit half
+		   as far from it as every section sits from its neighbour. */
+		padding-bottom: calc(var(--section-space) * 2);
 	}
 
 	.careers__intro {
