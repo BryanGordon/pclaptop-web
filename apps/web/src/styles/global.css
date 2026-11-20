@@ -205,6 +205,30 @@ p {
 	box-shadow: 0 2px 0 rgb(242 242 242 / 32%);
 }
 
+/* Night hover: the surface drops to dark navy, the label turns white and a 2px
+   white ring closes the shape. Meant to be reused on buttons across pages, so
+   it carries its own transition list and is not tied to a base variant — pair
+   it with `btn--primary` or with any other starting look. The ring is a real
+   border that sits transparent at rest, so the box never jumps when it appears;
+   the blue glow of `btn--primary` is dropped because it would halo a surface
+   that is no longer blue. */
+.btn--night {
+	border: 2px solid transparent;
+	transition:
+		transform var(--transition-base),
+		box-shadow var(--transition-base),
+		background-color var(--transition-base),
+		border-color var(--transition-base),
+		color var(--transition-base);
+}
+
+.btn--night:hover {
+	background-color: var(--color-night);
+	border-color: #ffffff;
+	box-shadow: none;
+	color: #ffffff;
+}
+
 /* ==========================================================================
    Forms
    Shared by every form on the site: the field look, its states and the pieces

@@ -15,6 +15,9 @@
 	/* Chrome surfaces — client-set (2026-11-18): navbar and footer only */
 	--color-chrome: #fbfcf6;
 
+	/* Night surface — client-set (2026-11-19): button hover behind white text */
+	--color-night: #102538;
+
 	/* Derived surfaces — built from the brand navy to add depth */
 	--color-surface: #06183a;
 	--color-surface-raised: #0a2148;
